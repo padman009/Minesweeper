@@ -19,6 +19,7 @@ class Table extends JFrame implements Runnable, MouseListener, MouseMotionListen
     private final int minesCount;
     private final int cellSize = 35;
     private List<List<Cell>> cells;
+    private List<List<Boolean>> status;//open=true and close=false
 
     private BufferedImage img;
 
@@ -40,10 +41,13 @@ class Table extends JFrame implements Runnable, MouseListener, MouseMotionListen
 
     private void buildGrid(int w, int h, int minesCount) {
         cells = new ArrayList<>();
+        status = new ArrayList<>();
         Random random=new Random();
         for(int i = 0; i<w;i++){
+            status.add(new ArrayList<>());
             cells.add(new ArrayList<>());
             for(int j=0; j<h;j++){
+                status.get(i).add(false);
                 cells.get(i).add(new Cell());
             }
         }
@@ -94,19 +98,15 @@ class Table extends JFrame implements Runnable, MouseListener, MouseMotionListen
     public void mousePressed(MouseEvent e) {
         int x = e.getX() / cellSize;
         int y = e.getY() / cellSize;
-        if (e.getButton()==3 && cells.get(x).get(y).getFlag()==0){
+        if (e.getButton() == 3 && cells.get(x).get(y).getFlag()==0){
             cells.get(x).get(y).setFlag(-1);
-        }else if (e.getButton()==3 && cells.get(x).get(y).getFlag()==-1){
+        }else if (e.getButton() == 3 && cells.get(x).get(y).getFlag()==-1){
             cells.get(x).get(y).setFlag(1);
-        }else if (e.getButton()==3 && cells.get(x).get(y).getFlag()==1){
+        }else if (e.getButton() == 3 && cells.get(x).get(y).getFlag()==1){
             cells.get(x).get(y).setFlag(0);
-        }else if (e.getButton() ==1 && cells.get(x).get(y).getFlag()==0 ){
-            cellOpen(x,y);
+        }else if (e.getButton() == 1 && cells.get(x).get(y).getFlag()==0 ){
+            status.get(x).set(y, true);
         }
-    }
-
-    private void cellOpen(int x, int y) {
-
     }
 
     @Override

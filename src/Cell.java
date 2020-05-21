@@ -15,6 +15,9 @@ class Cell{
         this.x = x;
         this.y = y;
         this.isMine = isMine;
+        if(isMine){
+            imageIcon=new ImageIcon("Icons//MINE.png");
+        }
         this.num = num;
     }
 
